@@ -67,6 +67,14 @@ python3 -m http.server 8000
 
 Puis ouvre http://localhost:8000.
 
+## Contribuer
+
+Après un clone, active le hook qui garde les messages de commit propres :
+
+```bash
+git config core.hooksPath .githooks
+```
+
 ## Licence
 
 MIT. Les polices Bricolage Grotesque et Martian Mono sont sous SIL Open Font License 1.1 (`public/fonts/OFL.txt`).

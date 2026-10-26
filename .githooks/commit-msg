@@ -1,0 +1,13 @@
+#!/bin/sh
+# Retire toute attribution à Claude des messages de commit (voir CLAUDE.md).
+msg="$1"
+tmp="$msg.tmp"
+grep -v -i \
+  -e '^Co-Authored-By:.*claude' \
+  -e '^Co-Authored-By:.*anthropic' \
+  -e '^Claude-Session:' \
+  -e 'Generated with \[\?Claude' \
+  "$msg" > "$tmp"
+# supprime les lignes vides en fin de message
+sed -e :a -e '/^\n*$/{$d;N;ba' -e '}' "$tmp" > "$msg"
+rm -f "$tmp"
