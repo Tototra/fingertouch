@@ -3,14 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:">
 <title>Dix Doigts</title>
-<link rel="icon" href="icon.png">
+<meta name="description" content="Entraînement gratuit à la frappe à dix doigts : leçons progressives, clavier AZERTY coloré par doigt, mains animées et suivi de vitesse.">
+<meta name="theme-color" content="#100e1c">
+<meta name="color-scheme" content="dark">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Dix Doigts">
+<meta property="og:description" content="Apprends à taper avec tous tes doigts, sans regarder le clavier.">
+<meta property="og:image" content="/og.png">
+<meta property="og:locale" content="fr_FR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="preload" href="/fonts/bricolage-grotesque.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/martian-mono-400.woff2" as="font" type="font/woff2" crossorigin>
 <style>
-@font-face{font-family:'Bricolage Grotesque';font-style:normal;font-display:swap;font-weight:200 800;src:url(fonts/bricolage-grotesque.woff2) format('woff2-variations'),url(fonts/bricolage-grotesque.woff2) format('woff2')}
-@font-face{font-family:'Martian Mono';font-style:normal;font-display:swap;font-weight:400;src:url(fonts/martian-mono-400.woff2) format('woff2')}
-@font-face{font-family:'Martian Mono';font-style:normal;font-display:swap;font-weight:500;src:url(fonts/martian-mono-500.woff2) format('woff2')}
-@font-face{font-family:'Martian Mono';font-style:normal;font-display:swap;font-weight:700;src:url(fonts/martian-mono-700.woff2) format('woff2')}
+@font-face{font-family:'Bricolage Grotesque';font-style:normal;font-display:swap;font-weight:200 800;src:url(/fonts/bricolage-grotesque.woff2) format('woff2-variations'),url(/fonts/bricolage-grotesque.woff2) format('woff2')}
+@font-face{font-family:'Martian Mono';font-style:normal;font-display:swap;font-weight:400;src:url(/fonts/martian-mono-400.woff2) format('woff2')}
+@font-face{font-family:'Martian Mono';font-style:normal;font-display:swap;font-weight:500;src:url(/fonts/martian-mono-500.woff2) format('woff2')}
+@font-face{font-family:'Martian Mono';font-style:normal;font-display:swap;font-weight:700;src:url(/fonts/martian-mono-700.woff2) format('woff2')}
 *,*::before,*::after{box-sizing:border-box}
 html,body{margin:0;height:auto}
 img{max-width:100%}
@@ -153,6 +166,9 @@ h1{font-family:var(--display);font-weight:800;font-size:clamp(30px,5vw,44px);let
 .legend span{display:inline-flex;align-items:center;gap:6px}
 .legend i{width:10px;height:10px;border-radius:3px;background:var(--c);display:block}
 
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;font:400 11px/1.4 var(--mono);color:var(--muted);border-top:1px solid var(--line);padding-top:16px;margin-top:8px}
+.foot a{color:var(--text);text-underline-offset:3px}
+.foot a:focus-visible{outline:2px solid var(--f-thumb);outline-offset:2px}
 .mobile-note{display:none;background:var(--panel);border:1px dashed var(--line);border-radius:14px;padding:12px 14px;color:var(--muted);font-size:13px}
 @media (pointer:coarse){.mobile-note{display:block}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -175,7 +191,7 @@ h1{font-family:var(--display);font-weight:800;font-size:clamp(30px,5vw,44px);let
     </div>
   </header>
 
-  <p class="mobile-note">Cet entraînement se fait avec un clavier physique. Ouvre la page sur un ordinateur.</p>
+  <p class="mobile-note">Cet entraînement se fait avec un clavier physique. Ouvre le site sur un ordinateur, ou branche un clavier à ta tablette.</p>
 
   <nav class="lessons" id="lessons" aria-label="Leçons"></nav>
 
@@ -213,6 +229,11 @@ h1{font-family:var(--display);font-weight:800;font-size:clamp(30px,5vw,44px);let
       <span><i style="--c:var(--f-thumb)"></i>Pouces</span>
     </div>
   </section>
+
+  <footer class="foot">
+    <span>Tes records restent dans ce navigateur, rien n'est envoyé.</span>
+    <a href="https://github.com/Tototra/fingertouch" rel="noopener">Code source</a>
+  </footer>
 </div>
 
 <script>

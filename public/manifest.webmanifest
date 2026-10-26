@@ -1,0 +1,14 @@
+{
+  "name": "Dix Doigts",
+  "short_name": "Dix Doigts",
+  "description": "Entraînement à la frappe à dix doigts.",
+  "lang": "fr",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#100e1c",
+  "theme_color": "#100e1c",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
