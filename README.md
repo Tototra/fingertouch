@@ -50,12 +50,8 @@ L'interface tient dans un seul fichier : [`app/index.html`](app/index.html). Le 
 ## Publier une nouvelle version
 
 1. Change `version` dans `package.json`.
-2. Commit, puis crée et pousse un tag :
-   ```bash
-   git tag v1.0.1
-   git push origin main --tags
-   ```
-3. Le workflow **Build & Release** construit Windows, macOS et Linux sur les runners GitHub et publie la release avec tous les fichiers.
+2. Commit et pousse sur `main`.
+3. Le workflow **Build & Release** voit qu'il n'existe pas encore de release pour cette version, construit Windows, macOS et Linux sur les runners GitHub et publie la release `vx.y.z` avec tous les fichiers. Un push sans changement de version ne republie rien.
 
 ## Version web
 
