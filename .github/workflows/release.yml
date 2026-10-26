@@ -1,0 +1,91 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build (${{ matrix.name }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            name: Windows
+            args: --win
+          - os: macos-latest
+            name: macOS
+            args: --mac
+          - os: ubuntu-latest
+            name: Linux
+            args: --linux
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build
+        run: npx electron-builder ${{ matrix.args }} --publish never
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ matrix.name }}
+          path: |
+            dist/*.exe
+            dist/*.dmg
+            dist/*.zip
+            dist/*.AppImage
+            dist/*.deb
+          if-no-files-found: error
+
+  release:
+    name: Publish release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Tag name
+        id: tag
+        shell: bash
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/* ]]; then
+            echo "tag=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=build-${GITHUB_RUN_NUMBER}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.tag }}
+          name: Dix Doigts ${{ steps.tag.outputs.tag }}
+          prerelease: ${{ !startsWith(github.ref, 'refs/tags/') }}
+          body: |
+            ## Téléchargement
+
+            | Système | Fichier |
+            | --- | --- |
+            | Windows | `DixDoigts-*-windows-setup.exe` (installateur) ou `-windows-portable.exe` (sans installation) |
+            | macOS (Intel et Apple Silicon) | `DixDoigts-*-mac-universal.dmg` |
+            | Linux | `DixDoigts-*-linux-x86_64.AppImage` ou `DixDoigts-*-linux-amd64.deb` |
+
+            L'app n'est pas signée. Sur Windows, clique sur « Informations complémentaires » puis « Exécuter quand même ».
+            Sur macOS, fais clic droit sur l'app puis « Ouvrir » la première fois.
+          files: dist/*
