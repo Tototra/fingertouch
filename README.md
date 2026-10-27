@@ -30,7 +30,16 @@ public/
 wrangler.jsonc           config Cloudflare Workers (dossier public/)
 ```
 
-## Déployer sur Cloudflare
+## En ligne
+
+**https://tototra.github.io/fingertouch/**
+
+Le workflow `.github/workflows/pages.yml` publie le dossier `public/` sur GitHub Pages à chaque push sur `main`.
+Activation (une seule fois) : *Settings → Pages → Build and deployment → Source : GitHub Actions*.
+
+Les chemins du site sont relatifs, donc il marche aussi bien dans le sous-dossier `/fingertouch/` de GitHub Pages qu'à la racine d'un domaine Cloudflare.
+
+## Déployer sur Cloudflare (optionnel)
 
 ### Option A : Cloudflare Pages (le plus simple)
 
@@ -56,7 +65,7 @@ npx wrangler deploy
 
 ### Domaine perso
 
-Dans le projet Cloudflare → **Custom domains** → ajoute ton domaine. Une fois l'adresse finale connue, remplace `/og.png` par l'URL complète (`https://ton-domaine/og.png`) dans la balise `og:image` de `public/index.html`, pour que l'aperçu s'affiche bien quand tu partages le lien.
+Dans le projet Cloudflare → **Custom domains** → ajoute ton domaine. Pense à mettre à jour l'URL de la balise `og:image` dans `public/index.html` avec ton domaine, pour que l'aperçu s'affiche bien quand tu partages le lien.
 
 ## Tester en local
 
