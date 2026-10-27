@@ -2,3 +2,5 @@ node_modules/
 .wrangler/
 .DS_Store
 *.log
+public/vendor/mediapipe/wasm/
+public/vendor/mediapipe/*.task

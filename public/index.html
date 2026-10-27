@@ -79,9 +79,9 @@ h1{font-family:var(--display);font-weight:800;font-size:clamp(30px,5vw,44px);let
 .lesson:focus-visible{outline:2px solid var(--f-thumb);outline-offset:2px}
 .lesson .n{font:500 10px/1 var(--mono);color:var(--muted);letter-spacing:.08em;text-transform:uppercase;display:flex;justify-content:space-between;gap:8px}
 .lesson .t{font-weight:700;font-size:15px}
-.lesson .k{font:400 11px/1.3 var(--mono);color:var(--muted)}
+.lesson .lk{font:400 11px/1.3 var(--mono);color:var(--muted)}
 .lesson[aria-current="true"]{background:var(--text);color:var(--ink);border-color:var(--text)}
-.lesson[aria-current="true"] .n,.lesson[aria-current="true"] .k{color:#4a4566}
+.lesson[aria-current="true"] .n,.lesson[aria-current="true"] .lk{color:#4a4566}
 .best{color:var(--f-index)}
 .lesson[aria-current="true"] .best{color:#0b7a68}
 
@@ -95,7 +95,64 @@ h1{font-family:var(--display);font-weight:800;font-size:clamp(30px,5vw,44px);let
 .dots i{width:10px;height:10px;border-radius:50%;background:var(--panel-2);border:1.5px solid var(--c);transition:background .2s}
 .dots i.used{background:var(--c)}
 .dots i:nth-child(5){margin-right:6px}
-@media (max-width:620px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.stats{grid-template-columns:repeat(5,minmax(0,1fr))}
+.stat .sub{font:400 10px/1.3 var(--mono);color:var(--muted);margin-top:4px}
+.stat .v.good{color:var(--f-index)} .stat .v.warn{color:var(--f-ring)} .stat .v.bad{color:var(--bad)}
+@media (max-width:760px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stats .stat:last-child{grid-column:1/-1}}
+
+/* controls */
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px}
+.toggle{display:inline-flex;align-items:center;gap:10px;cursor:pointer;font-size:14px;user-select:none}
+.toggle input{position:absolute;opacity:0;width:1px;height:1px}
+.toggle .sw{width:34px;height:20px;border-radius:999px;background:var(--panel-2);border:1px solid var(--line);position:relative;transition:background .15s;flex:0 0 auto}
+.toggle .sw::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--muted);transition:transform .15s, background .15s}
+.toggle input:checked + .sw{background:color-mix(in srgb,var(--f-index) 30%,var(--panel-2));border-color:var(--f-index)}
+.toggle input:checked + .sw::after{transform:translateX(14px);background:var(--f-index)}
+.toggle input:focus-visible + .sw{outline:2px solid var(--f-thumb);outline-offset:2px}
+.toggle small{color:var(--muted);font:400 11px/1.3 var(--mono)}
+.cam-btn{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:8px;font:600 13px/1 var(--body);padding:9px 14px;border-radius:999px;border:1px solid var(--line);background:var(--panel)}
+.cam-btn:hover{border-color:var(--muted)}
+.cam-btn:focus-visible{outline:2px solid var(--f-thumb);outline-offset:2px}
+.cam-btn .led{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+.cam-btn[aria-pressed="true"]{border-color:var(--f-thumb)}
+.cam-btn[aria-pressed="true"] .led{background:var(--f-thumb);box-shadow:0 0 10px var(--f-thumb)}
+
+/* camera panel */
+.cam{display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:18px;background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:18px}
+@media (max-width:760px){.cam{grid-template-columns:minmax(0,1fr)}}
+.cam-view{position:relative;aspect-ratio:4/3;max-width:100%;border-radius:14px;overflow:hidden;background:var(--ink);border:1px solid var(--line)}
+.cam-view video,.cam-view canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}
+.cam-view video{opacity:.75}
+.cam-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:16px;background:color-mix(in srgb,var(--ink) 72%,transparent)}
+.cam-overlay .ck{font:700 64px/1 var(--mono);color:var(--fc,var(--text));text-shadow:0 0 30px color-mix(in srgb,var(--fc,var(--text)) 50%,transparent)}
+.cam-overlay .cw{font:600 15px/1.3 var(--body)}
+.cam-overlay .cp{font:400 11px/1 var(--mono);color:var(--muted);letter-spacing:.08em}
+.cam-side{display:flex;flex-direction:column;gap:12px;min-width:0}
+.cam-status{font:600 14px/1.4 var(--body);display:flex;align-items:center;gap:8px}
+.cam-status i{width:8px;height:8px;border-radius:50%;background:var(--muted);flex:0 0 auto}
+.cam-status.ok i{background:var(--f-index)} .cam-status.warn i{background:var(--f-ring)} .cam-status.bad i{background:var(--bad)}
+.field{display:flex;flex-direction:column;gap:6px;font:500 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.field select{font:400 13px/1.2 var(--body);color:var(--text);background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:8px 10px;text-transform:none;letter-spacing:0;max-width:100%}
+.cam-actions{display:flex;flex-wrap:wrap;gap:8px}
+.cam-live{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.cam-live div{background:var(--panel-2);padding:10px 12px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.cam-live span{font:500 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.cam-live b{font:700 15px/1.2 var(--body)}
+.cam-tip{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+.cam-cal{font:400 12px/1.4 var(--mono);color:var(--muted)}
+
+/* finger checks in results */
+.checks{flex:1 1 100%;display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line);padding-top:14px}
+.checks h3{margin:0 0 6px;font:500 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.chk{display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:12px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--line)}
+.chk b{font-weight:700;font-size:14px}
+.chk p{margin:0;color:var(--muted);font-size:13px;line-height:1.45}
+@media (max-width:620px){.chk{grid-template-columns:minmax(0,1fr) auto}.chk p{grid-column:1/-1;grid-row:2}}
+.pill{font:600 11px/1 var(--mono);padding:5px 9px;border-radius:999px;white-space:nowrap;border:1px solid currentColor}
+.pill.good{color:var(--f-index)} .pill.warn{color:var(--f-ring)} .pill.bad{color:var(--bad)} .pill.na{color:var(--muted)}
+.ch.wf{text-decoration:underline wavy var(--bad);text-underline-offset:6px}
+.cap .notice{font:500 12px/1.35 var(--mono);color:var(--bad);margin-top:8px;min-height:1.35em;max-width:300px;margin-inline:auto}
+.tape.done .viewport,.tape.done .progress,.tape.done .hint{display:none}
 
 /* tape */
 .tape{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:26px 28px 18px;cursor:text}
@@ -126,7 +183,7 @@ h1{font-family:var(--display);font-weight:800;font-size:clamp(30px,5vw,44px);let
 .veil span{color:var(--muted);font-size:14px}
 
 /* result */
-.result{position:absolute;inset:0;border-radius:22px;background:var(--panel);display:flex;flex-wrap:wrap;gap:24px;align-items:center;padding:24px 28px;overflow:auto}
+.result{display:flex;flex-wrap:wrap;gap:20px 28px;align-items:center}
 .result .big{font:800 clamp(56px,10vw,96px)/.9 var(--display);letter-spacing:-.04em;font-variation-settings:"opsz" 96}
 .result .big small{display:block;font:500 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:10px}
 .result .col{display:flex;flex-direction:column;gap:8px;min-width:0;flex:1 1 220px}
@@ -195,11 +252,18 @@ h1{font-family:var(--display);font-weight:800;font-size:clamp(30px,5vw,44px);let
 
   <nav class="lessons" id="lessons" aria-label="Leçons"></nav>
 
+  <div class="controls">
+    <label class="toggle" for="opt-shift"><input type="checkbox" id="opt-shift" checked><span class="sw" aria-hidden="true"></span><span>Maj du bon côté obligatoire <small>lettre de gauche → Maj droite</small></span></label>
+    <button class="cam-btn" id="btn-cam" type="button" aria-pressed="false"><i class="led" aria-hidden="true"></i>Contrôle par caméra</button>
+  </div>
+
+
   <section class="stats" aria-label="Statistiques">
     <div class="stat"><span class="l">Vitesse</span><span class="v" id="s-mpm">0<small>mots/min</small></span></div>
     <div class="stat"><span class="l">Précision</span><span class="v" id="s-acc">100<small>%</small></span></div>
     <div class="stat"><span class="l">Erreurs</span><span class="v" id="s-err">0</span></div>
     <div class="stat"><span class="l">Doigts actifs</span><span class="v" id="s-fing">0<small>/10</small></span><div class="dots" id="dots"></div></div>
+    <div class="stat"><span class="l">Doigté</span><span class="v" id="s-tech">—</span><span class="sub" id="s-tech-sub">tape quelques mots</span></div>
   </section>
 
   <section class="tape" id="tape" tabindex="0" aria-label="Zone de frappe">
@@ -209,15 +273,39 @@ h1{font-family:var(--display);font-weight:800;font-size:clamp(30px,5vw,44px);let
     </div>
     <div class="viewport"><div class="inner" id="inner"></div></div>
     <div class="progress"><b id="prog"></b></div>
-    <p class="hint">Une faute bloque le curseur jusqu'à la bonne touche. <kbd>Échap</kbd> recommence. Les petits traits sur <span id="bump-keys">F</span> et <span id="bump-keys2">J</span> servent de repère aux index.</p>
+    <p class="hint">Une faute bloque le curseur jusqu'à la bonne touche. Les majuscules se font avec la Maj de l'autre main. <kbd>Échap</kbd> recommence. Les petits traits sur <span id="bump-keys">F</span> et <span id="bump-keys2">J</span> servent de repère aux index.</p>
     <div class="veil" id="veil" hidden><b>Clique ici pour commencer</b><span>Pose tes doigts sur la rangée du milieu, index sur les repères.</span></div>
     <div class="result" id="result" hidden></div>
+  </section>
+
+  <section class="cam" id="cam" hidden aria-label="Contrôle par caméra">
+    <div class="cam-view">
+      <video id="cam-video" playsinline muted></video>
+      <canvas id="cam-canvas"></canvas>
+      <div class="cam-overlay" id="cam-overlay"><span class="cw">Caméra éteinte</span></div>
+    </div>
+    <div class="cam-side">
+      <div class="cam-status" id="cam-status"><i></i><span>Caméra éteinte</span></div>
+      <label class="field" for="cam-select">Caméra
+        <select id="cam-select"><option value="">Caméra par défaut</option></select>
+      </label>
+      <div class="cam-actions">
+        <button class="btn primary" id="btn-calib" type="button">Calibrer (16 touches)</button>
+        <button class="btn" id="btn-cam-off" type="button">Couper la caméra</button>
+      </div>
+      <div class="cam-cal" id="cam-cal">Pas encore calibrée : réglages par défaut pour une caméra face à toi.</div>
+      <div class="cam-live">
+        <div><span>Dernier doigt vu</span><b id="cam-last">—</b></div>
+        <div><span>Bon doigt</span><b id="cam-acc">—</b></div>
+      </div>
+      <p class="cam-tip">Place la caméra face à toi, un peu au-dessus du clavier, pour voir tes doigts de devant et légèrement d'en haut. Garde les deux mains dans le cadre avec une bonne lumière, puis lance la calibration. La webcam d'un portable voit souvent mal le clavier : un téléphone utilisé comme webcam ou une caméra sur pince marche mieux. La détection reste approximative et les pouces ne sont pas vérifiés. La vidéo est analysée sur ton ordinateur, rien n'est envoyé.</p>
+    </div>
   </section>
 
   <section class="instrument" aria-label="Mains et clavier">
     <div class="hands">
       <svg class="hand" id="hand-L" viewBox="0 0 180 150" aria-hidden="true"></svg>
-      <div class="cap"><div class="key" id="cap-key">f</div><div class="who" id="cap-who">Index gauche</div></div>
+      <div class="cap"><div class="key" id="cap-key">f</div><div class="who" id="cap-who">Index gauche</div><div class="notice" id="notice" aria-live="polite"></div></div>
       <svg class="hand" id="hand-R" viewBox="0 0 180 150" aria-hidden="true"></svg>
     </div>
     <div class="kb" id="kb"></div>
@@ -243,6 +331,7 @@ const FINGERS = {
 };
 const ORDER = ['L5','L4','L3','L2','L1','R1','R2','R3','R4','R5'];
 const col = f => `var(--f-${FINGERS[f].t})`;
+const theF = f => { const n=FINGERS[f].n.toLowerCase(); return /^[aeiou]/.test(n)?`l'${n}`:`le ${n}`; };
 const CODE = {a:'L5',b:'L4',c:'L3',d:'L2',g:'R2',h:'R3',i:'R4',j:'R5'};
 
 const LAYOUTS = {
@@ -300,7 +389,7 @@ const SENTENCES = [
 
 /* storage */
 const STORE='dixdoigts:v1';
-let saved={layout:'azerty',best:{}};
+let saved={layout:'azerty',best:{},strictShift:true,cal:null};
 try{ const s=JSON.parse(localStorage.getItem(STORE)||'null'); if(s) saved={...saved,...s}; }catch(e){}
 const persist=()=>{try{localStorage.setItem(STORE,JSON.stringify(saved))}catch(e){}};
 
@@ -396,7 +485,7 @@ function renderLessons(){
     const b=document.createElement('button'); b.className='lesson'; b.type='button';
     b.setAttribute('aria-current',i===lessonIdx);
     const best=saved.best[saved.layout+':'+L.id];
-    b.innerHTML=`<span class="n"><span>${String(i+1).padStart(2,'0')}</span>${best?`<span class="best">${best.mpm} m/min</span>`:''}</span><span class="t">${L.name}</span><span class="k">${lessonKeysLabel(L)}</span>`;
+    b.innerHTML=`<span class="n"><span>${String(i+1).padStart(2,'0')}</span>${best?`<span class="best">${best.mpm} m/min</span>`:''}</span><span class="t">${L.name}</span><span class="lk">${lessonKeysLabel(L)}</span>`;
     b.onclick=()=>{lessonIdx=i; start(); $('tape').focus();};
     nav.append(b);
   });
@@ -405,7 +494,10 @@ function renderLessons(){
 function start(){
   const L=LESSONS[lessonIdx];
   text=generate(L);
-  st={pos:0,errors:0,errAt:new Set(),elapsed:0,last:null,used:new Set(),ferr:{},done:false};
+  st={pos:0,errors:0,errAt:new Set(),elapsed:0,last:null,used:new Set(),ferr:{},done:false,
+    shiftOk:0,shiftBad:0,trans:0,overlap:0,sameOverlap:0,iv:{same:[],hand:[],alt:[]},prev:null,errSincePrev:false,
+    cam:{ok:0,bad:0,unsure:0,used:false}};
+  $('tape').classList.remove('done'); notice('');
   $('lesson-title').textContent=`${String(lessonIdx+1).padStart(2,'0')} · ${L.name}`;
   $('result').hidden=true;
   renderLessons(); renderText(); cursor(); stats();
@@ -450,13 +542,66 @@ function stats(){
   $('s-fing').innerHTML=`${st.used.size}<small>/10</small>`;
   $('dots').innerHTML=ORDER.map(f=>`<i style="--c:${col(f)}" class="${st.used.has(f)?'used':''}" title="${FINGERS[f].n}"></i>`).join('');
   $('prog').style.width=(100*st.pos/text.length)+'%';
-  return {mpm,acc};
+  const T=analyzeTech(mpm);
+  const v=$('s-tech'); v.className='v '+(T.overall.state==='na'?'':T.overall.state); v.innerHTML=T.overall.value;
+  $('s-tech-sub').textContent=T.overall.sub;
+  return {mpm,acc,T};
 }
+
+/* ---------- analyse du doigté ---------- */
+const median=a=>{ if(!a.length) return 0; const b=[...a].sort((x,y)=>x-y), m=b.length>>1; return b.length%2?b[m]:(b[m-1]+b[m])/2; };
+const STATE_LABEL={good:'Bon',warn:'À surveiller',bad:'Suspect',na:'—'};
+function analyzeTech(mpm){
+  const out={};
+  const sh=st.shiftOk+st.shiftBad;
+  out.shift = !sh ? {state:'na',text:"Aucune majuscule ou symbole avec Maj dans ce texte."}
+    : !st.shiftBad ? {state:'good',text:`${st.shiftOk} Maj sur ${sh} faites avec la main opposée.`}
+    : {state: st.shiftBad/sh>0.3?'bad':'warn', text:`${st.shiftBad} Maj sur ${sh} faites avec la mauvaise main.`};
+
+  const rate=st.trans?st.overlap/st.trans:0, pct=Math.round(rate*100);
+  if(st.sameOverlap>=2) out.overlap={state:'bad',text:`${st.sameOverlap} fois, deux touches du même doigt étaient enfoncées en même temps : un autre doigt a pris le relais.`};
+  else if(st.trans<20) out.overlap={state:'na',text:"Pas encore assez d'enchaînements pour juger."};
+  else if(st.sameOverlap===1) out.overlap={state:'warn',text:`Une fois, deux touches du même doigt étaient enfoncées en même temps. ${pct} % de chevauchements au total.`};
+  else if(rate>=0.08) out.overlap={state:'good',text:`${pct} % de tes enchaînements se chevauchent : plusieurs doigts travaillent en même temps, ce qui est impossible à un seul doigt.`};
+  else if(mpm>=35 && rate<0.03) out.overlap={state:'warn',text:`Seulement ${pct} % de chevauchements à ${mpm} mots/min : à cette vitesse, c'est souvent le signe de peu de doigts.`};
+  else out.overlap={state:'na',text:`${pct} % de chevauchements. C'est normal en tapant lentement, ça viendra avec la vitesse.`};
+
+  const iv=st.iv, ms=x=>Math.round(median(x));
+  if(iv.same.length>=6 && iv.hand.length>=6){
+    const R=median(iv.same)/median(iv.hand);
+    const base=`Même doigt : ${ms(iv.same)} ms, même main avec des doigts différents : ${ms(iv.hand)} ms.`;
+    out.rhythm = R>=1.15 ? {state:'good',text:`${base} Les lettres d'un même doigt sont plus lentes, comme attendu à dix doigts.`}
+      : R<1.03 ? {state:'bad',text:`${base} Aucune différence : tu sembles taper ces lettres avec le même doigt.`}
+      : {state:'warn',text:`${base} L'écart est faible, à surveiller.`};
+  } else if(iv.hand.length>=8 && iv.alt.length>=8){
+    const R2=median(iv.hand)/median(iv.alt);
+    const base=`Même main : ${ms(iv.hand)} ms, mains alternées : ${ms(iv.alt)} ms.`;
+    out.rhythm = R2<=1.35 ? {state:'good',text:`${base} Les enchaînements sur une même main restent fluides.`}
+      : R2>1.7 ? {state:'bad',text:`${base} Nettement plus lent sur une même main : peu de doigts font tout le travail.`}
+      : {state:'warn',text:`${base} Un peu plus lent sur une même main, à surveiller.`};
+  } else out.rhythm={state:'na',text:"Pas encore assez de frappes pour analyser ton rythme."};
+
+  const ct=st.cam.ok+st.cam.bad;
+  if(!st.cam.used) out.cam={state:'na',text:"Caméra non utilisée pendant cette leçon."};
+  else if(ct<10) out.cam={state:'na',text:`Trop peu de frappes vues clairement par la caméra (${ct}).`};
+  else { const a=st.cam.ok/ct; out.cam={state:a>=0.85?'good':a>=0.65?'warn':'bad',acc:a,text:`${st.cam.ok} frappes sur ${ct} faites avec le bon doigt selon la caméra${st.cam.unsure?` (${st.cam.unsure} pas assez nettes)`:''}.`}; }
+
+  const parts=[out.shift,out.overlap,out.rhythm,out.cam];
+  if(out.cam.acc!==undefined) out.overall={state:out.cam.state,value:`${Math.round(out.cam.acc*100)}<small>%</small>`,sub:'bon doigt selon la caméra'};
+  else {
+    const st2=parts.some(x=>x.state==='bad')?'bad':parts.some(x=>x.state==='warn')?'warn':parts.some(x=>x.state==='good')?'good':'na';
+    out.overall={state:st2,value:STATE_LABEL[st2],sub:st2==='na'?'tape quelques mots':st2==='good'?'Maj, chevauchements, rythme':'détails à la fin de la leçon'};
+  }
+  return out;
+}
+
+let noticeTimer;
+function notice(msg,ms=2600){ const n=$('notice'); if(!n) return; n.textContent=msg; clearTimeout(noticeTimer); if(msg) noticeTimer=setTimeout(()=>n.textContent='',ms); }
 
 function flash(id,cls,ms=160){ const k=$(id); if(!k) return; k.classList.add(cls); setTimeout(()=>k.classList.remove(cls),ms); }
 
 function finish(){
-  st.done=true; const {mpm,acc}=stats(); cursor();
+  st.done=true; const {mpm,acc,T}=stats(); cursor();
   const key=saved.layout+':'+LESSONS[lessonIdx].id, prev=saved.best[key];
   const isBest=!prev || mpm>prev.mpm || (mpm===prev.mpm && acc>prev.acc);
   if(isBest){ saved.best[key]={mpm,acc}; persist(); }
@@ -474,14 +619,29 @@ function finish(){
       <button class="btn primary" type="button" id="r-next">${lessonIdx<LESSONS.length-1?'Leçon suivante ↵':'Encore des phrases ↵'}</button>
       <button class="btn" type="button" id="r-again">Recommencer (Échap)</button>
     </div>
+  </div>
+  <div class="checks">
+    <h3>Contrôle du doigté</h3>
+    ${[['Maj du bon côté',T.shift],['Chevauchements',T.overlap],['Rythme',T.rhythm],['Caméra',T.cam]].map(([n,c])=>`<div class="chk"><b>${n}</b><p>${c.text}</p><span class="pill ${c.state}">${STATE_LABEL[c.state]==='—'?'Pas de verdict':STATE_LABEL[c.state]}</span></div>`).join('')}
   </div>`;
-  r.hidden=false;
+  r.hidden=false; $('tape').classList.add('done');
   $('r-next').onclick=next; $('r-again').onclick=()=>{start();$('tape').focus()};
   renderLessons();
 }
 function next(){ if(lessonIdx<LESSONS.length-1) lessonIdx++; start(); $('tape').focus(); }
 
+/* touches enfoncées : sert aux chevauchements et à la Maj */
+const held=new Map(); const shiftHeld={L:false,R:false};
+const isMod=c=>/^(Shift|Control|Alt|Meta|CapsLock|OS)/.test(c);
+addEventListener('keyup',e=>{ held.delete(e.code); if(e.code==='ShiftLeft') shiftHeld.L=false; if(e.code==='ShiftRight') shiftHeld.R=false; });
+addEventListener('blur',()=>{ held.clear(); shiftHeld.L=shiftHeld.R=false; });
+
 addEventListener('keydown',e=>{
+  if(e.code==='ShiftLeft') shiftHeld.L=true;
+  if(e.code==='ShiftRight') shiftHeld.R=true;
+  if(!e.shiftKey){ shiftHeld.L=shiftHeld.R=false; }
+  if(e.target.closest && e.target.closest('select,input,textarea')) return;
+  if(cal.active){ calibKey(e); return; }
   if(e.metaKey) return;
   if(e.ctrlKey && !(e.getModifierState&&e.getModifierState('AltGraph'))) return;
   if(e.target.closest && e.target.closest('button') && (e.key==='Enter'||e.key===' ') && st.done) return;
@@ -490,26 +650,300 @@ addEventListener('keydown',e=>{
   if(e.key==='Tab'){ e.preventDefault(); return; }
   if(e.key.length!==1) return;
   e.preventDefault();
+  if(e.repeat) return;
+  const T=e.timeStamp||performance.now();
+  const overlapPrev = !!(st.prev && !st.errSincePrev && st.prev.code!==e.code && held.has(st.prev.code));
+  if(!isMod(e.code)) held.set(e.code,T);
   const now=performance.now();
   if(st.last!==null) st.elapsed+=Math.min(now-st.last,3000);
   st.last=now;
   const pressed=lookup(e.key); if(pressed) pressed.keys.forEach(id=>flash(id,'hit'));
   const expect=text[st.pos], info=lookup(expect), s=spans[st.pos];
+  const fail=()=>{ st.errors++; st.errAt.add(st.pos); s.classList.add('err'); st.errSincePrev=true;
+    const t=$('tape'); t.classList.remove('shake'); void t.offsetWidth; t.classList.add('shake'); };
+
   if(e.key===expect){
+    /* 1. Maj du bon côté */
+    if(info && info.shift){
+      const need=info.keys[1]==='shiftR'?'R':'L';
+      const caps=!e.shiftKey && e.getModifierState && e.getModifierState('CapsLock');
+      const okSide=caps?false:(shiftHeld[need] || (!shiftHeld.L && !shiftHeld.R));
+      if(!okSide){
+        st.shiftBad++;
+        const msg=caps?"Verr. Maj est activé : coupe-le et utilise la touche Maj."
+          :`Maj ${need==='R'?'droite':'gauche'} ! Cette touche est tapée par la main ${need==='R'?'gauche':'droite'}.`;
+        notice(msg); flash(need==='R'?'shiftR':'shiftL','bad',400);
+        if(saved.strictShift){ flash('h-'+(need==='R'?'R5':'L5'),'bad',400); fail(); stats(); return; }
+      } else st.shiftOk++;
+    }
     s.classList.remove('err');
     s.classList.add(st.errAt.has(st.pos)?'fix':'ok');
     if(info) info.fingers.forEach(f=>{st.used.add(f); $('h-'+f)?.classList.add('used')});
+    const f=info?info.main:null, thumb=!f||f[1]==='1';
+
+    /* 2. chevauchements et 3. rythme */
+    if(st.prev && !st.errSincePrev){
+      st.trans++;
+      if(overlapPrev){
+        st.overlap++;
+        if(!thumb && f===st.prev.f && expect.toLowerCase()!==st.prev.ch.toLowerCase()){
+          st.sameOverlap++; s.classList.add('wf');
+          notice(`« ${st.prev.ch} » et « ${expect} » enfoncées ensemble : elles sont toutes deux pour ${theF(f)}.`,3200);
+        }
+      }
+      const dt=T-st.prev.t, pthumb=!st.prev.f||st.prev.f[1]==='1';
+      if(dt>40 && dt<1500 && !thumb && !pthumb && expect.toLowerCase()!==st.prev.ch.toLowerCase()){
+        const k = f===st.prev.f ? 'same' : f[0]===st.prev.f[0] ? 'hand' : 'alt';
+        st.iv[k].push(dt); if(st.iv[k].length>200) st.iv[k].shift();
+      }
+    }
+    st.prev={t:T,code:e.code,f,ch:expect}; st.errSincePrev=false;
+
+    /* 5. caméra */
+    if(camState.on && !thumb) camCheck(T,f,st.pos,st);
+
     st.pos++;
     if(st.pos>=text.length){ finish(); return; }
     cursor();
   } else {
-    st.errors++; st.errAt.add(st.pos); s.classList.add('err');
+    fail();
     if(info){ st.ferr[info.main]=(st.ferr[info.main]||0)+1; info.fingers.forEach(f=>flash('h-'+f,'bad',220)); }
     if(pressed) pressed.keys.forEach(id=>flash(id,'bad',220));
-    const t=$('tape'); t.classList.remove('shake'); void t.offsetWidth; t.classList.add('shake');
   }
   stats();
 });
+
+/* ---------- 5. contrôle par caméra (MediaPipe Hand Landmarker) ---------- */
+const MP_VER='1.1.0';
+const MP_LOCAL='vendor/mediapipe';
+const MP_CDN_WASM=`https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${MP_VER}/wasm`;
+const MP_CDN_MODEL='https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task';
+const TIP={1:4,2:8,3:12,4:16,5:20}, MCP={1:2,2:5,3:9,4:13,5:17};
+const CAM_FINGERS=['L5','L4','L3','L2','R2','R3','R4','R5'];
+const SIGNALS=['dyUp','dyDown','dzUp','dzDown'];
+const DEFAULT_CAL={minXIsLeft:false,labelOfMinX:'Left',signal:'dyUp',minScore:0.03,acc:null,n:0};
+const camState={on:false,lm:null,stream:null,frames:[],raf:0,lastVT:-1,keep:1600,loading:false};
+const cal={active:false,seq:[],i:0,samples:[]};
+const camCal=()=>({...DEFAULT_CAL,...(saved.cal||{})});
+
+function camStatus(msg,state=''){ const el=$('cam-status'); el.className='cam-status '+state; el.querySelector('span').textContent=msg; }
+function camOverlay(html){ const o=$('cam-overlay'); if(html===null){ o.hidden=true; return; } o.hidden=false; o.innerHTML=html; }
+async function exists(url){ try{ const r=await fetch(url,{method:'HEAD',cache:'no-store'}); return r.ok; }catch(e){ return false; } }
+
+async function camStart(){
+  if(camState.loading) return;
+  camState.loading=true; let stage='load';
+  $('cam').hidden=false; $('btn-cam').setAttribute('aria-pressed','true');
+  try{
+    if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia) throw new Error('nocam');
+    if(!camState.lm){
+      camStatus('Chargement du détecteur de mains…'); camOverlay('<span class="cw">Chargement du détecteur de mains…</span><span class="cp">environ 20 Mo, une seule fois</span>');
+      const mod=await import(`./${MP_LOCAL}/vision_bundle.mjs`);
+      const localWasm=await exists(`${MP_LOCAL}/wasm/vision_wasm_internal.wasm`);
+      const fileset=await mod.FilesetResolver.forVisionTasks(localWasm?new URL(`${MP_LOCAL}/wasm`,location.href).href:MP_CDN_WASM);
+      const model=(await exists(`${MP_LOCAL}/hand_landmarker.task`))?new URL(`${MP_LOCAL}/hand_landmarker.task`,location.href).href:MP_CDN_MODEL;
+      const opts=d=>({baseOptions:{modelAssetPath:model,delegate:d},runningMode:'VIDEO',numHands:2,minHandDetectionConfidence:.5,minHandPresenceConfidence:.5,minTrackingConfidence:.5});
+      try{ camState.lm=await mod.HandLandmarker.createFromOptions(fileset,opts('GPU')); }
+      catch(e){ camState.lm=await mod.HandLandmarker.createFromOptions(fileset,opts('CPU')); }
+    }
+    stage='camera';
+    camStatus("Autorise l'accès à la caméra…"); camOverlay("<span class=\"cw\">Autorise l'accès à la caméra</span>");
+    const dev=$('cam-select').value;
+    const video={width:{ideal:960},height:{ideal:720},frameRate:{ideal:60}};
+    if(dev) video.deviceId={exact:dev};
+    camState.stream=await navigator.mediaDevices.getUserMedia({video,audio:false});
+    const v=$('cam-video'); v.srcObject=camState.stream; await v.play();
+    await fillCams();
+    camState.on=true; camState.frames=[]; camOverlay(null);
+    camStatus('Caméra active','ok'); renderCal();
+    camLoop();
+  }catch(e){
+    console.error(e);
+    const denied=e&&(e.name==='NotAllowedError'||e.name==='SecurityError');
+    const msg=e.message==='nocam'?"Ce navigateur ne donne pas accès à la caméra."
+      :denied?"Accès à la caméra refusé. Autorise-le dans la barre d'adresse puis réessaie."
+      :e&&e.name==='NotFoundError'?"Aucune caméra trouvée."
+      :e&&e.name==='NotReadableError'?"La caméra est déjà utilisée par une autre application."
+      :stage==='load'?"Le détecteur de mains n'a pas pu se charger. Vérifie ta connexion et réessaie."
+      :"Impossible de démarrer la caméra. Recharge la page et réessaie.";
+    camStatus(msg,'bad'); camOverlay(`<span class="cw">${msg}</span>`);
+    camStop(true);
+  }finally{ camState.loading=false; }
+}
+
+function camStop(keepPanel){
+  camState.on=false; cancelAnimationFrame(camState.raf);
+  if(camState.stream){ camState.stream.getTracks().forEach(t=>t.stop()); camState.stream=null; }
+  const c=$('cam-canvas'); c.getContext('2d').clearRect(0,0,c.width,c.height);
+  if(cal.active) calibEnd(true);
+  if(!keepPanel){ $('cam').hidden=true; $('btn-cam').setAttribute('aria-pressed','false'); camStatus('Caméra éteinte'); camOverlay('<span class="cw">Caméra éteinte</span>'); }
+}
+
+async function fillCams(){
+  try{
+    const sel=$('cam-select'), cur=camState.stream?.getVideoTracks()[0]?.getSettings().deviceId||sel.value;
+    const list=(await navigator.mediaDevices.enumerateDevices()).filter(d=>d.kind==='videoinput');
+    sel.innerHTML=list.map((d,i)=>`<option value="${d.deviceId}">${(d.label||`Caméra ${i+1}`).replace(/</g,'&lt;')}</option>`).join('')||'<option value="">Caméra par défaut</option>';
+    if(cur) sel.value=cur;
+  }catch(e){}
+}
+
+function camLoop(){
+  if(!camState.on) return;
+  const v=$('cam-video');
+  if(v.readyState>=2 && v.currentTime!==camState.lastVT){
+    camState.lastVT=v.currentTime;
+    const now=performance.now();
+    let r=null; try{ r=camState.lm.detectForVideo(v,now); }catch(e){}
+    if(r){ pushFrame(now,r); drawHands(r); }
+  }
+  camState.raf=requestAnimationFrame(camLoop);
+}
+
+function pushFrame(t,r){
+  const hands=(r.landmarks||[]).map((pts,i)=>{
+    const w=pts[0], m=pts[9], scale=Math.hypot(m.x-w.x,m.y-w.y)||1e-3, v={};
+    for(let k=1;k<=5;k++){ const tip=pts[TIP[k]], mcp=pts[MCP[k]]; v[k]={dy:(tip.y-mcp.y)/scale,dz:(tip.z-mcp.z)/scale}; }
+    return {wx:w.x,label:r.handedness?.[i]?.[0]?.categoryName||'',v};
+  });
+  camState.frames.push({t,hands});
+  const keep=cal.active?60000:camState.keep;
+  while(camState.frames.length && camState.frames[0].t<t-keep) camState.frames.shift();
+  const n=hands.length;
+  if(!cal.active) camStatus(n===2?'Deux mains détectées':n===1?'Une seule main visible':'Aucune main visible, recadre la caméra',n===2?'ok':'warn');
+}
+
+/* côté réel (L/R) d'une main d'une image, selon la calibration */
+function sideOf(frame,idx,c){
+  const hs=frame.hands;
+  if(hs.length>=2){
+    const other=hs[idx===0?1:0];
+    const isMin=hs[idx].wx<=other.wx;
+    return (isMin===c.minXIsLeft)?'L':'R';
+  }
+  const isMin=hs[idx].label===c.labelOfMinX;
+  return (isMin===c.minXIsLeft)?'L':'R';
+}
+
+/* mouvement de chaque doigt autour de l'instant T */
+function featuresAt(T,c){
+  const fr=camState.frames.filter(f=>f.t>=T-520 && f.t<=T+230);
+  const acc={}; CAM_FINGERS.forEach(f=>acc[f]={base:[],press:[]});
+  for(const f of fr){
+    const win=f.t<T-220?'base':f.t>=T-70?'press':null; if(!win) continue;
+    f.hands.forEach((h,i)=>{ const side=sideOf(f,i,c); for(let k=2;k<=5;k++){ acc[side+k][win].push(h.v[k]); } });
+  }
+  const out={}; let any=false;
+  for(const f of CAM_FINGERS){
+    const {base,press}=acc[f];
+    if(!base.length||!press.length){ out[f]=null; continue; }
+    any=true;
+    const bdy=base.reduce((a,x)=>a+x.dy,0)/base.length, bdz=base.reduce((a,x)=>a+x.dz,0)/base.length;
+    const pdy=press.map(x=>x.dy), pdz=press.map(x=>x.dz);
+    out[f]={dyUp:Math.max(...pdy)-bdy,dyDown:bdy-Math.min(...pdy),dzUp:Math.max(...pdz)-bdz,dzDown:bdz-Math.min(...pdz)};
+  }
+  return any?out:null;
+}
+
+function predict(feats,c){
+  let best=null,bs=-Infinity;
+  for(const f of CAM_FINGERS){ const v=feats[f]?.[c.signal]; if(v!=null && v>bs){ bs=v; best=f; } }
+  if(best===null || bs<c.minScore) return null;
+  return best;
+}
+
+function camCheck(T,expected,pos,run){
+  run.cam.used=true;
+  setTimeout(()=>{
+    if(run!==st) return;
+    const c=camCal(), feats=featuresAt(T,c);
+    const pred=feats?predict(feats,c):null;
+    if(!pred){ run.cam.unsure++; $('cam-last').textContent='pas net'; return; }
+    $('cam-last').textContent=FINGERS[pred].n;
+    if(pred===expected){ run.cam.ok++; }
+    else{
+      run.cam.bad++; spans[pos]?.classList.add('wf');
+      flash('h-'+pred,'bad',450);
+      notice(`Caméra : ${FINGERS[pred].n.toLowerCase()} au lieu ${theF(expected).replace(/^le /,'du ').replace(/^l'/,"de l'")}.`,3000);
+    }
+    const ct=run.cam.ok+run.cam.bad; $('cam-acc').textContent=ct?`${Math.round(100*run.cam.ok/ct)} %`:'—';
+    stats();
+  },260);
+}
+
+/* dessin des points de la main */
+const BONES=[[0,1],[1,2],[2,3],[3,4],[0,5],[5,6],[6,7],[7,8],[5,9],[9,10],[10,11],[11,12],[9,13],[13,14],[14,15],[15,16],[13,17],[17,18],[18,19],[19,20],[0,17]];
+function drawHands(r){
+  const c=$('cam-canvas'), v=$('cam-video'), ctx=c.getContext('2d');
+  if(c.width!==v.videoWidth){ c.width=v.videoWidth; c.height=v.videoHeight; }
+  ctx.clearRect(0,0,c.width,c.height);
+  const css=getComputedStyle(document.documentElement), cc=calib=>css.getPropertyValue(calib).trim();
+  const frame=camState.frames[camState.frames.length-1], cfg=camCal();
+  const expected=cal.active?cal.seq[cal.i]?.f:(st&&!st.done?lookup(text[st.pos])?.main:null);
+  (r.landmarks||[]).forEach((pts,i)=>{
+    const side=frame?sideOf(frame,i,cfg):'L';
+    ctx.strokeStyle=cc('--muted'); ctx.lineWidth=2; ctx.globalAlpha=.7;
+    for(const [a,b] of BONES){ ctx.beginPath(); ctx.moveTo(pts[a].x*c.width,pts[a].y*c.height); ctx.lineTo(pts[b].x*c.width,pts[b].y*c.height); ctx.stroke(); }
+    ctx.globalAlpha=1;
+    for(let k=1;k<=5;k++){
+      const f=side+k, p=pts[TIP[k]], on=f===expected;
+      ctx.fillStyle=cc('--f-'+FINGERS[f].t);
+      ctx.beginPath(); ctx.arc(p.x*c.width,p.y*c.height,on?11:6,0,Math.PI*2); ctx.fill();
+      if(on){ ctx.strokeStyle=cc('--text'); ctx.lineWidth=2; ctx.stroke(); }
+    }
+  });
+}
+
+/* calibration : 16 frappes connues */
+function calibStart(){
+  if(!camState.on){ return; }
+  const r2=[...LAYOUTS[saved.layout].rows[2].keys], idx=[3,6,2,7,1,8,0,9];
+  const one=idx.map(i=>({ch:r2[i],f:KMAP[r2[i]].f}));
+  cal.seq=[...one,...one]; cal.i=0; cal.samples=[]; cal.active=true; camState.frames=[];
+  camStatus('Calibration en cours','warn'); calibShow();
+}
+function calibShow(){
+  const t=cal.seq[cal.i];
+  camOverlay(`<span class="cp">CALIBRATION ${cal.i+1} / ${cal.seq.length}</span><span class="ck" style="--fc:${col(t.f)}">${t.ch.toUpperCase()}</span><span class="cw">Appuie avec ${theF(t.f)}</span><span class="cp">Échap pour annuler</span>`);
+  $('cam-overlay').style.background='color-mix(in srgb,var(--ink) 35%,transparent)';
+}
+function calibKey(e){
+  e.preventDefault();
+  if(e.key==='Escape'){ calibEnd(true); return; }
+  if(e.repeat || e.key.length!==1) return;
+  const t=cal.seq[cal.i];
+  if(e.key.toLowerCase()!==t.ch){ notice(`Tape « ${t.ch.toUpperCase()} »`); return; }
+  cal.samples.push({T:e.timeStamp||performance.now(),f:t.f});
+  cal.i++;
+  if(cal.i>=cal.seq.length) setTimeout(()=>calibEnd(false),320); else calibShow();
+}
+function calibEnd(cancel){
+  cal.active=false; $('cam-overlay').style.background='';
+  if(cancel){ camOverlay(null); camStatus('Calibration annulée','warn'); return; }
+  let best=null;
+  for(const minXIsLeft of [false,true]) for(const labelOfMinX of ['Left','Right']) for(const signal of SIGNALS){
+    const c={minXIsLeft,labelOfMinX,signal,minScore:-Infinity};
+    let ok=0; const scores=[];
+    for(const s of cal.samples){ const ft=featuresAt(s.T,c); if(!ft) continue; const p=predict(ft,c); if(p===s.f){ ok++; scores.push(ft[s.f][signal]); } }
+    if(!best || ok>best.ok) best={c,ok,scores};
+  }
+  const n=cal.samples.length;
+  camOverlay(null);
+  if(!best || best.ok===0){ camStatus('Calibration ratée : la caméra ne voit pas assez tes doigts','bad'); camState.frames=[]; return; }
+  saved.cal={...best.c,minScore:Math.max(0.01,0.35*median(best.scores)),acc:best.ok/n,n};
+  persist(); camState.frames=[]; renderCal();
+  camStatus(best.ok/n>=0.6?'Calibration terminée':'Calibration faible : rapproche ou relève la caméra',best.ok/n>=0.6?'ok':'warn');
+}
+function renderCal(){
+  const c=saved.cal;
+  $('cam-cal').textContent=c?`Calibrée : ${Math.round(c.acc*100)} % des ${c.n} frappes de test reconnues.${c.acc<0.6?' Détection peu fiable avec ce cadrage.':''}`
+    :'Pas encore calibrée : réglages par défaut pour une caméra face à toi.';
+}
+
+$('btn-cam').onclick=()=>{ camState.on||camState.loading ? camStop() : camStart(); };
+$('btn-cam-off').onclick=()=>camStop();
+$('btn-calib').onclick=()=>{ if(!camState.on){ camStart().then(()=>camState.on&&calibStart()); } else calibStart(); };
+$('cam-select').onchange=()=>{ if(camState.on){ camStop(true); camStart(); } };
 
 /* focus veil */
 const veil=$('veil');
@@ -518,6 +952,8 @@ addEventListener('focus',syncFocus); addEventListener('blur',syncFocus);
 $('tape').addEventListener('click',()=>{ window.focus(); $('tape').focus(); syncFocus(); });
 setInterval(syncFocus,800);
 
+const optShift=$('opt-shift'); optShift.checked=saved.strictShift!==false;
+optShift.onchange=()=>{ saved.strictShift=optShift.checked; persist(); $('tape').focus(); };
 $('btn-new').onclick=e=>{ e.stopPropagation(); start(); $('tape').focus(); };
 const setLayout=l=>{ saved.layout=l; persist(); buildKeyboard(); start(); };
 $('lay-azerty').onclick=()=>setLayout('azerty');

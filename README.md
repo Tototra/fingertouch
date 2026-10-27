@@ -14,6 +14,19 @@ Dix Doigts est un site d'entraînement à la dactylographie. Chaque doigt a sa c
 - Vitesse en mots par minute, précision, doigt le plus fautif, record par leçon.
 - Tout tourne dans le navigateur. Les records restent en local, rien n'est envoyé.
 
+### Contrôle du doigté
+
+Un clavier ne dit pas quel doigt appuie, alors l'app croise plusieurs indices :
+
+| Contrôle | Ce qu'il vérifie | Fiabilité |
+| --- | --- | --- |
+| Maj du bon côté | Une lettre de la main gauche doit se faire avec la Maj droite, et inversement. Option bloquante (activée par défaut). | Certaine |
+| Chevauchements | Deux touches enfoncées en même temps viennent forcément de deux doigts. Deux touches du même doigt enfoncées ensemble prouvent qu'un autre doigt a pris le relais. | Forte |
+| Rythme | À dix doigts, deux lettres du même doigt sont plus lentes que deux lettres de doigts différents. Un rythme sans cette différence trahit peu de doigts. | Indicative |
+| Caméra | MediaPipe repère les doigts dans la vidéo et compare le doigt qui descend au doigt attendu. Calibration en 16 touches. La vidéo reste sur l'ordinateur. | Approximative, dépend du cadrage |
+
+Le verdict s'affiche en direct dans la case « Doigté » et en détail à la fin de chaque leçon.
+
 Raccourcis : `Échap` recommence la leçon, `Entrée` passe à la suivante à la fin.
 
 ## Structure
@@ -24,9 +37,11 @@ C'est un site 100 % statique, sans build ni dépendance.
 public/
   index.html             toute l'app (HTML, CSS, JS)
   fonts/                 polices embarquées (pas d'appel à Google Fonts)
+  vendor/mediapipe/      détection des mains (wasm et modèle ajoutés au déploiement)
   _headers               en-têtes HTTP Cloudflare (sécurité, cache)
   manifest.webmanifest   installable comme app depuis le navigateur
   favicon.ico, icon-*.png, apple-touch-icon.png, og.png
+scripts/fetch-vendor.sh  télécharge MediaPipe et le modèle des mains
 wrangler.jsonc           config Cloudflare Workers (dossier public/)
 ```
 
@@ -47,7 +62,7 @@ Les chemins du site sont relatifs, donc il marche aussi bien dans le sous-dossie
 2. Choisis le dépôt `Tototra/fingertouch`.
 3. Réglages de build :
    - Framework preset : **None**
-   - Build command : *(laisser vide)*
+   - Build command : `sh scripts/fetch-vendor.sh`
    - Build output directory : `public`
 4. **Save and Deploy**. Chaque push sur `main` redéploie le site.
 
